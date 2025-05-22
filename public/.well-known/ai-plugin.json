@@ -5,8 +5,8 @@
   "description_for_human": "Add expenses to your Splitser list",
   "description_for_model": "Add a shared expense to Splitser.",
   "auth": { "type": "api_key", "headers": ["x-api-key"] },
-  "api": { "type": "openapi", "url": "https://{{BASE_URL}}/openapi.yaml" },
-  "logo_url": "https://{{BASE_URL}}/logo.png",
+  "api": { "type": "openapi", "url": "{{BASE_URL}}/openapi.yaml" },
+  "logo_url": "{{BASE_URL}}/logo.png",
   "contact_email": "you@example.com",
   "legal_info_url": "https://example.com/terms"
 }
