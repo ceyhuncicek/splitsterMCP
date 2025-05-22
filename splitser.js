@@ -149,7 +149,7 @@ app.post('/addExpense', async (req, res) => {
 app.use('/.well-known', express.static('public/.well-known'));
 app.get('/openapi.yaml', (req, res) =>
   res.sendFile('public/openapi.yaml', { root: __dirname }));
-app.get('/health', (_, res) => res.send('ok'));
+app.get('/', (_, res) => res.send('ok'));
 
 
 // Start server
