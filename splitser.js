@@ -125,10 +125,8 @@ const app = express();
 app.use(express.json());
 
 // Public routes (no auth required)
-app.get('/', (_, res) => res.send('ok'));
-app.use('/.well-known', express.static('public/.well-known'));
-app.get('/openapi.yaml', (req, res) =>
-  res.sendFile('public/openapi.yaml', { root: __dirname }));
+app.get('/.well-known/ai-plugin.json',serveTemplate('public/.well-known/ai-plugin.json','application/json'));
+app.get('/openapi.yaml',serveTemplate('public/openapi.yaml','text/yaml'));
 
 // API key authentication middleware for all other routes
 app.use((req, res, next) => {
