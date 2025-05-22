@@ -6,6 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: development
+      - "3000:3000"           # container:host
+    env_file:
+      - .env                  # load everything from .env
+    environment:              # anything you still want to hard-code / override
+      - PORT=3000             # Express listens on this
+      - NODE_ENV=production   # or "development"
+      # BASE_URL comes from .env so Express can patch ai-plugin.json/openapi.yaml
