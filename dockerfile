@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Set working directory
-WORKDIR /app
+WORKDIR /
 
 # Copy dependency definitions
 COPY package*.json ./

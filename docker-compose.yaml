@@ -5,11 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # For production you can remove the volume mounts below
-    volumes:
-      - ./:/app
-      # Prevent host’s empty node_modules from overwriting the container’s
-      - /app/node_modules
     ports:
       - "3000:3000"
     environment:
