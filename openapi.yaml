@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info: { title: Splitser Expense API, version: "1.0" }
+paths:
+  /addExpense:
+    post:
+      operationId: add_expense
+      summary: Add an expense to Splitser
+      security: [ { ApiKeyAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [dateDesc, amountEur, description]
+              properties:
+                dateDesc:    { type: string }
+                amountEur:   { type: number }
+                description: { type: string }
+                categoryId:  { type: integer }
+                payerId:     { type: string }
+      responses: { "200": { description: Success } }
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
