@@ -124,7 +124,13 @@ class SplitserClient {
 const app = express();
 app.use(express.json());
 
-// Simple API-key middleware
+// Public routes (no auth required)
+app.get('/', (_, res) => res.send('ok'));
+app.use('/.well-known', express.static('public/.well-known'));
+app.get('/openapi.yaml', (req, res) =>
+  res.sendFile('public/openapi.yaml', { root: __dirname }));
+
+// API key authentication middleware for all other routes
 app.use((req, res, next) => {
   const key = req.header('x-api-key');
   if (key !== MASTER_API_KEY) {
@@ -133,7 +139,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Endpoint to add expense
+// Protected routes (require auth)
 app.post('/addExpense', async (req, res) => {
   try {
     const { dateDesc, amountEur, description, categoryId, payerId, cookies, sharesAttributes, splitBetween } = req.body;
@@ -145,11 +151,6 @@ app.post('/addExpense', async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
-
-app.use('/.well-known', express.static('public/.well-known'));
-app.get('/openapi.yaml', (req, res) =>
-  res.sendFile('public/openapi.yaml', { root: __dirname }));
-app.get('/', (_, res) => res.send('ok'));
 
 
 // Start server
