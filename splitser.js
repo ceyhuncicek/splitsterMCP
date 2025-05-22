@@ -156,8 +156,3 @@ app.post('/addExpense', async (req, res) => {
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Splitser API listening on port ${PORT}`));
-
-/*
-.env example:
-MASTER_API_KEY=supersecretkey123
-*/
