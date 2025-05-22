@@ -125,8 +125,27 @@ const app = express();
 app.use(express.json());
 
 // Public routes (no auth required)
-app.get('/.well-known/ai-plugin.json',serveTemplate('public/.well-known/ai-plugin.json','application/json'));
-app.get('/openapi.yaml',serveTemplate('public/openapi.yaml','text/yaml'));
+// Dynamic serving of ai-plugin.json and openapi.yaml
+// (replaces {{BASE_URL}} with process.env.BASE_URL at request time)
+const fs = require('fs');
+const path = require('path');
+
+function serveTemplate(rawPath, contentType) {
+  return (req, res) => {
+    try {
+      const raw = fs.readFileSync(path.join(__dirname, rawPath), 'utf8');
+      const baseUrl = process.env.BASE_URL || `https://${req.headers.host}`;
+      const filled = raw.replace(/\{\{BASE_URL}}/g, baseUrl);
+      res.type(contentType).send(filled);
+    } catch (err) {
+      console.error('Template serve error:', err);
+      res.status(500).send('Server error');
+    }
+  };
+}
+
+app.get('/.well-known/ai-plugin.json', serveTemplate('public/.well-known/ai-plugin.json', 'application/json'));
+app.get('/openapi.yaml', serveTemplate('public/openapi.yaml', 'text/yaml'));
 
 // API key authentication middleware for all other routes
 app.use((req, res, next) => {
